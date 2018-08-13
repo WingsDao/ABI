@@ -4,9 +4,9 @@ Manual how to use Wings contracts ABI.
 
 ## Table of contents
 
- - [Introduction](https://github.com/wingsdao/ABI#introduction)
- - [Creating a project for valuation forecast](https://github.com/wingsdao/ABI#creating-a-project-for-valuation-forecast)
- - [Making a forecast](https://github.com/wingsdao/ABI#making-a-forecast)
+ - [Introduction](#introduction)
+ - [Creating a project for valuation forecast](#creating-a-project-for-valuation-forecast)
+ - [Making a forecast](#making-a-forecast)
 
 ---
 
@@ -67,10 +67,10 @@ First step in project creation process is creating a DAO. DAO is a main contract
 In case you want to create and use custom crowdsale contract you will need to perform integration with wings.
 
 Currently there are two supported types of integration:
- - [Wings Light Bridge](https://github.com/wingsdao/wings-light-bridge)
+ - [Wings Light Bridge](https://github.com/wingsdao/wings-light-bridge) *(from the latest update you can create Bridge directly from DAO)*
  - [Wings Full Integration](https://github.com/wingsdao/wings-integration)
 
-*NOTE: Before you create DAO you should already have your crowdsale integrated and deployed.*
+*NOTE: In case you've chosen Wings Full Integration you should complete integration guide and deploy your crowdsale before DAO creation.*
 
 ---
 
@@ -105,14 +105,14 @@ await wings.createDAO(name, tokenName, tokenSymbol, infoHash, customCrowdsale, {
 
 **Parameters:**
  - `name` - string - name of your project
- - `tokenName` - string - name of project token
- - `tokenSymbol` - string - symbol of project token
- - `infoHash` - bytes32 - decoded ipfs hash of project description
- - `customCrowdsale` - address - address of custom crowdsale (`"0"` in case of standard crowdsale)
+ - `tokenName` - string - name of project token. Optional, default: `''`
+ - `tokenSymbol` - string - symbol of project token. Optional, default: `''`
+ - `infoHash` - bytes32 - decoded ipfs hash of project description.
+ - `customCrowdsale` - address - address of custom crowdsale (`0` in case of *standard crowdsale/wings light bridge*)
 
 #### Uploading your project description and media to ipfs
 
-Head to [Media file format](https://github.com/WingsDao/ABI#media-file-format) paragraph in the Appendix section.
+Head to [Media file format](#media-file-format) paragraph in the Appendix section.
 
 ---
 
@@ -150,6 +150,33 @@ const daoAddress = (await wings.getDAOById.call(daoId)).toString()
 
 **Parameters:**
  - `name` - string - name of your project
+
+### 2.1 Create Wings Light Bridge
+
+*Required stage: initial*
+
+In case you are going to use simple integration for your custom crowdsale, during this step you need to create `Bridge`.
+
+```js
+await dao.createBridge(projectToken, minimalGoal, hardCap, startTimestamp, endTimestamp, { from: creator })
+```
+
+**Parameters:**
+ - `projectToken` - address - project token contract address. Optional.
+ - `minimalGoal` - uint256 - minimal goal of crowdsale. Optional.
+ - `hardCap` - uint256 - hard cap of crowdsale. Optional.
+ - `startTimestamp` - uint256 - unix timestamp of the start of crowdsale. Optional.
+ - `endTimestamp` - uint256 - unix timestamp of the end of crowdsale. Optional.
+
+### 2.1.1 Communication with Wings Light Bridge
+
+Get address of `Bridge`.
+
+```js
+const bridgeAddress = await dao.crowdsale.call()
+```
+
+More thorough guide for Wings Light Bridge can be found [here](https://github.com/wingsdao/wings-light-bridge).
 
 ### 3. Create Rewards Model
 
@@ -249,7 +276,7 @@ await dao.closeForecasting({ from: creator })
 
 ## Note that after forecasting end you will have 45 days to start your crowdsale.
 
-## In case you are using Custom Crowdsale, skip step 7 and head to the step 8.1.
+## In case you are using Custom Crowdsale or Wings Light Bridge, skip step 7 and head to the step 8.1.
 
 ### 7. Create token
 
