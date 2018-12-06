@@ -758,6 +758,8 @@ await forecasting.addForecast(
  - `forecast` - uint256 - forecasted amount
  - `messageHash` - bytes32 - ipfs hash of message (message is a buffered string)
 
+**Important:** If you want to reject the project (flag it as spam/scam) you need to set forecast amount to 0.
+
 ---
 
 ## Additional methods
