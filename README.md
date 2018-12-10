@@ -587,6 +587,14 @@ File that contains project media has to be in JSON format.
       "$id": "/properties/category",
       "type": "integer"
     },
+    "forecastingCurrency": {
+        "id": "/properties/forecastingCurrency",
+        "type": "integer"
+    },
+    "customContract": {
+        "id": "/properties/customContract",
+        "type": "bool"
+    },
     "gallery": {
       "$id": "/properties/gallery",
       "type": "array",
@@ -667,6 +675,8 @@ To better understand parameters let's prepare full list:
 - *shortBlurb* - short description of project, string. Maximum 140 characters.
 - *story* - description of project in [Delta](https://github.com/quilljs/delta) format (see the example below).
 - *category* - id of category (see Categories below).
+- *forecastingCurrency* - id of forecasting currency (0: ETH, 1: USD, 2: EUR).
+- *customContract* - whether project will use custom contract or not.
 - *gallery* - gallery description of project.
 - _gallery/*/contentType_ - type of content. Options: video, image, logo, terms.
 - *gallery/video/content/videoId* -  id of video from video hosting.
