@@ -809,3 +809,14 @@ You can **cancel** forecast from the beginning of the forecasting and to the end
 ```js
 await forecasting.closeForecast({ from: forecaster })
 ```
+
+#### Release WINGS
+
+**Important:** To release WINGS tokens the account must have 0 active forecasts.
+
+```js
+await userStorage.releaseWings(amount, { from: forecaster })
+```
+
+**Parameters:**
+- `amount` - amount of tokens to release.
